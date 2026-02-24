@@ -1,0 +1,4 @@
+Rust,Model,LOYO_AUC,Spatial_AUC,Gap,Brier_raw,Brier_cal,Optimal_threshold,F1_default,F1_optimal,Top_feature
+StemRust,XGB,0.8325,0.7764,0.056,0.1587,0.1747,0.18,0.566,0.655,Lat_x_Alt
+StripeRust,GB,0.7188,0.7251,-0.0063,0.2025,0.2056,0.35,0.65,0.68,race_pressure
+LeafRust,GB,0.7984,0.7291,0.0693,0.1172,0.1343,0.1,0.094,0.516,Altitude
