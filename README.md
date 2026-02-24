@@ -8,16 +8,62 @@ Binary classification (disease presence/absence) evaluated with **Leave-One-Year
 
 | Rust Type | Meyer et al. (Logistic Regression) | Our Best Model | Improvement |
 |-----------|-----------------------------------|----------------|-------------|
-| **Stem**   | 0.772 | **0.833** (XGBoost) | +7.9% |
-| **Stripe** | 0.598 | **0.719** (Gradient Boosting) | +20.2% |
-| **Leaf**   | 0.638 | **0.798** (Gradient Boosting) | +25.1% |
+| **Stem**   | 0.772 | **0.833** (XGBoost) | +0.061 |
+| **Stripe** | 0.598 | **0.719** (Gradient Boosting) | +0.121 |
+| **Leaf**   | 0.638 | **0.798** (Gradient Boosting) | +0.160 |
+
+### AUC Comparison Across Models
+
+![AUC Summary](results/v6_summary_auc.png)
+
+### Per-Year AUC Trajectories
+
+| Stem Rust | Stripe Rust | Leaf Rust |
+|:---------:|:-----------:|:---------:|
+| ![Stem](report/figs/StemRust_v6_yearly_auc.png) | ![Stripe](report/figs/StripeRust_v6_yearly_auc.png) | ![Leaf](report/figs/LeafRust_v6_yearly_auc.png) |
+
+### Spatial vs Temporal Cross-Validation
+
+| Stem Rust | Stripe Rust | Leaf Rust |
+|:---------:|:-----------:|:---------:|
+| ![Stem](results/stem_rust/StemRust_spatial_vs_temporal.png) | ![Stripe](results/stripe_rust/StripeRust_spatial_vs_temporal.png) | ![Leaf](results/leaf_rust/LeafRust_spatial_vs_temporal.png) |
 
 ### Key Findings
 - **Per-rust model selection** outperforms a single model: XGBoost for stem rust (climate-driven), Gradient Boosting for stripe (race-driven) and leaf (spatial-driven) rust
 - **Spatial cross-validation** (leave-one-block-out, K=8) confirms generalization with only 5--7% AUC degradation for stem/leaf rust and no degradation for stripe rust
 - **SHAP analysis** identifies latitude-altitude interactions, pathogen race pressure, and crop growth stage as the dominant predictive features
-- ERA5 climate features help stem rust (+1.1% AUC) but not stripe/leaf rust
+- ERA5 climate features help stem rust (+0.011 AUC) but not stripe/leaf rust
 - MODIS NDVI provides minimal direct signal; engineered features (anomaly, change) rank low
+
+## Explainability (SHAP)
+
+### Feature Importance
+
+| Stem Rust | Stripe Rust | Leaf Rust |
+|:---------:|:-----------:|:---------:|
+| ![Stem](results/stem_rust/StemRust_shap_bar.png) | ![Stripe](results/stripe_rust/StripeRust_shap_bar.png) | ![Leaf](results/leaf_rust/LeafRust_shap_bar.png) |
+
+### SHAP Beeswarm Plots
+
+| Stem Rust | Stripe Rust | Leaf Rust |
+|:---------:|:-----------:|:---------:|
+| ![Stem](results/stem_rust/StemRust_shap_summary.png) | ![Stripe](results/stripe_rust/StripeRust_shap_summary.png) | ![Leaf](results/leaf_rust/LeafRust_shap_summary.png) |
+
+### Top Feature Dependence Plots
+
+| Stem: Lat x Alt | Stripe: Race Pressure | Leaf: Altitude |
+|:---------:|:-----------:|:---------:|
+| ![Stem](results/stem_rust/StemRust_shap_dep_1_Lat_x_Alt.png) | ![Stripe](results/stripe_rust/StripeRust_shap_dep_1_race_pressure.png) | ![Leaf](results/leaf_rust/LeafRust_shap_dep_1_Altitude.png) |
+
+## Calibration & Threshold Optimization
+
+| Stem Rust | Stripe Rust | Leaf Rust |
+|:---------:|:-----------:|:---------:|
+| ![Stem](results/stem_rust/StemRust_calibration.png) | ![Stripe](results/stripe_rust/StripeRust_calibration.png) | ![Leaf](results/leaf_rust/LeafRust_calibration.png) |
+
+| Stem Rust | Stripe Rust | Leaf Rust |
+|:---------:|:-----------:|:---------:|
+| ![Stem](results/stem_rust/StemRust_threshold.png) | ![Stripe](results/stripe_rust/StripeRust_threshold.png) | ![Leaf](results/leaf_rust/LeafRust_threshold.png) |
 
 ## Project Structure
 
